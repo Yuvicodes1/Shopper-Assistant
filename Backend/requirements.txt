@@ -1,0 +1,6 @@
+flask
+spacy
+torch
+transformers
+huggingface_hub
+gunicorn

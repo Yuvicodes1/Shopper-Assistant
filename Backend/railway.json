@@ -1,0 +1,15 @@
+{
+  "build": {
+    "env": {
+      "PYTHON_VERSION": "3.12"
+    },
+    "commands": [
+      "pip install -r requirements.txt"
+    ]
+  },
+  "deploy": {
+    "commands": [
+      "gunicorn app:app"
+    ]
+  }
+}

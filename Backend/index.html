@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Shopping Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .voice-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .voice-controls {
+            margin-bottom: 20px;
+        }
+
+        .record-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+            margin-bottom: 20px;
+        }
+
+        .record-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255,107,107,0.6);
+        }
+
+        .record-btn:active {
+            transform: scale(0.95);
+        }
+
+        .record-btn.recording {
+            background: linear-gradient(135deg, #ff3838, #c44569);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .status {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 15px;
+            min-height: 25px;
+        }
+
+        .transcription {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            font-style: italic;
+            min-height: 50px;
+        }
+
+        .response-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .response-section {
+            margin-bottom: 20px;
+        }
+
+        .response-section h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .assistant-response {
+            background: #e8f2ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            min-height: 50px;
+        }
+
+        .recommendations {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .recommendation-item {
+            background: #f0f8ff;
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 3px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-item:hover {
+            background: #e6f3ff;
+            transform: translateX(5px);
+        }
+
+        .search-urls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .search-link {
+            display: block;
+            text-decoration: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .search-link.amazon {
+            background: #ff9900;
+        }
+
+        .search-link.flipkart {
+            background: #2874f0;
+        }
+
+        .search-link.myntra {
+            background: #ff3e6c;
+        }
+
+        .search-link.ajio {
+            background: #d63384;
+        }
+
+        .search-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .analysis-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .analysis-item {
+            margin-bottom: 10px;
+        }
+
+        .analysis-item strong {
+            color: #667eea;
+        }
+
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .tag {
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 15px;
+            font-size: 0.8em;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .control-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .text-input-section {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1em;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-urls {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛍️ Voice Shopping Assistant</h1>
+            <p>Speak naturally to find products, get recommendations, and discover great deals!</p>
+        </div>
+
+        <div class="main-content">
+            <div class="voice-panel">
+                <div class="voice-controls">
+                    <button id="recordBtn" class="record-btn">🎤</button>
+                    <div class="status" id="status">Click the microphone to start speaking</div>
+                </div>
+                
+                <div class="response-section">
+                    <h3>What you said:</h3>
+                    <div class="transcription" id="transcription">Your speech will appear here...</div>
+                </div>
+
+                <div class="controls">
+                    <button class="control-btn" onclick="resetSession()">🔄 Reset Session</button>
+                    <button class="control-btn" onclick="toggleTextInput()">⌨️ Type Instead</button>
+                </div>
+            </div>
+
+            <div class="response-panel">
+                <div class="response-section">
+                    <h3>🤖 Assistant Response:</h3>
+                    <div class="assistant-response" id="assistantResponse">
+                        I'm ready to help you find amazing products! Just speak naturally about what you're looking for.
+                    </div>
+                </div>
+
+                <div class="response-section">
+                    <h3>📋 Recommendations:</h3>
+                    <div class="recommendations" id="recommendations">
+                        <div class="recommendation-item">Start by telling me what you're looking for...</div>
+                    </div>
+                </div>
+
+                <div class="response-section">
+                    <h3>🔍 Search Links:</h3>
+                    <div class="search-urls" id="searchUrls">
+                        <a href="#" class="search-link amazon">Amazon</a>
+                        <a href="#" class="search-link flipkart">Flipkart</a>
+                        <a href="#" class="search-link myntra">Myntra</a>
+                        <a href="#" class="search-link ajio">Ajio</a>
+                    </div>
+                </div>
+
+                <div class="analysis-section" id="analysisSection" style="display: none;">
+                    <h3>🔍 Analysis:</h3>
+                    <div id="analysisContent"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-input-section" id="textInputSection" style="display: none;">
+            <h3>💬 Type Your Message:</h3>
+            <textarea class="text-input" id="textInput" placeholder="Type what you're looking for..." rows="3"></textarea>
+            <button class="send-btn" onclick="sendTextMessage()">Send Message</button>
+        </div>
+    </div>
+
+    <script>
+        const recordBtn = document.getElementById("recordBtn");
+        const status = document.getElementById("status");
+        const transcription = document.getElementById("transcription");
+        const assistantResponse = document.getElementById("assistantResponse");
+        const recommendations = document.getElementById("recommendations");
+        const searchUrls = document.getElementById("searchUrls");
+        const analysisSection = document.getElementById("analysisSection");
+        const analysisContent = document.getElementById("analysisContent");
+        const textInputSection = document.getElementById("textInputSection");
+        const textInput = document.getElementById("textInput");
+
+        let isRecording = false;
+        let mediaRecorder;
+        let audioChunks = [];
+
+        // Voice recording functionality
+        recordBtn.onclick = async () => {
+            if (isRecording) {
+                stopRecording();
+                return;
+            }
+
+            try {
+                status.textContent = "🎙️ Recording... (Click again to stop)";
+                recordBtn.classList.add("recording");
+                recordBtn.textContent = "⏹️";
+                isRecording = true;
+
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    status.textContent = "🎧 Processing your request...";
+                    
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const formData = new FormData();
+                    formData.append('file', audioBlob, 'speech.wav');
+
+                    try {
+                        // Step 1: Transcribe audio
+                        const transcribeResponse = await fetch("http://127.0.0.1:5050/transcribe", {
+                            method: "POST",
+                            body: formData
+                        });
+                        const transcribeData = await transcribeResponse.json();
+
+                        if (!transcribeData.transcription) {
+                            status.textContent = "❌ Could not understand speech. Please try again.";
+                            return;
+                        }
+
+                        transcription.textContent = transcribeData.transcription;
+                        status.textContent = "🤖 Getting recommendations...";
+
+                        // Step 2: Get chat response
+                        await sendChatMessage(transcribeData.transcription);
+
+                    } catch (err) {
+                        console.error('Error:', err);
+                        status.textContent = "⚠️ Error processing request. Please try again.";
+                        assistantResponse.textContent = "Sorry, I encountered an error. Please try again.";
+                    }
+                };
+
+                mediaRecorder.start();
+
+            } catch (err) {
+                console.error('Error accessing microphone:', err);
+                status.textContent = "❌ Could not access microphone. Please check permissions.";
+                resetRecordingState();
+            }
+        };
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            }
+            resetRecordingState();
+        }
+
+        function resetRecordingState() {
+            isRecording = false;
+            recordBtn.classList.remove("recording");
+            recordBtn.textContent = "🎤";
+        }
+
+        // Send chat message function
+        async function sendChatMessage(message) {
+            try {
+                const chatResponse = await fetch("http://127.0.0.1:5050/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ text: message })
+                });
+
+                const chatData = await chatResponse.json();
+                
+                if (chatData.error) {
+                    throw new Error(chatData.error);
+                }
+
+                // Update UI with response
+                updateUI(chatData);
+                status.textContent = "✅ Ready for your next request!";
+
+            } catch (err) {
+                console.error('Chat error:', err);
+                status.textContent = "⚠️ Error getting response. Please try again.";
+                assistantResponse.textContent = "Sorry, I encountered an error. Please try again.";
+            }
+        }
+
+        // Update UI with chat response
+        function updateUI(chatData) {
+            // Update assistant response
+            assistantResponse.textContent = chatData.reply || "I'm here to help you find products!";
+
+            // Update recommendations
+            recommendations.innerHTML = '';
+            if (chatData.recommendations && chatData.recommendations.length > 0) {
+                chatData.recommendations.forEach(rec => {
+                    const item = document.createElement('div');
+                    item.className = 'recommendation-item';
+                    item.textContent = rec;
+                    recommendations.appendChild(item);
+                });
+            } else {
+                recommendations.innerHTML = '<div class="recommendation-item">Tell me what you\'re looking for to get personalized recommendations!</div>';
+            }
+
+            // Update search URLs
+            if (chatData.search_urls) {
+                const urls = chatData.search_urls;
+                searchUrls.innerHTML = `
+                    <a href="${urls.amazon}" target="_blank" class="search-link amazon">🛒 Amazon</a>
+                    <a href="${urls.flipkart}" target="_blank" class="search-link flipkart">🛍️ Flipkart</a>
+                    <a href="${urls.myntra}" target="_blank" class="search-link myntra">👗 Myntra</a>
+                    <a href="${urls.ajio}" target="_blank" class="search-link ajio">👕 Ajio</a>
+                `;
+            }
+
+            // Update analysis section
+            if (chatData.product_analysis) {
+                updateAnalysis(chatData.product_analysis);
+            }
+        }
+
+        // Update analysis section
+        function updateAnalysis(analysis) {
+            let content = '';
+            
+            if (analysis.products && analysis.products.length > 0) {
+                content += `<div class="analysis-item"><strong>Products:</strong> ${analysis.products.join(', ')}</div>`;
+            }
+            
+            if (analysis.intent) {
+                content += `<div class="analysis-item"><strong>Intent:</strong> ${analysis.intent}</div>`;
+            }
+            
+            if (analysis.features) {
+                Object.entries(analysis.features).forEach(([feature, values]) => {
+                    if (values.length > 0) {
+                        content += `<div class="analysis-item"><strong>${feature}:</strong>`;
+                        content += `<div class="feature-tags">`;
+                        values.forEach(value => {
+                            content += `<span class="tag">${value}</span>`;
+                        });
+                        content += `</div></div>`;
+                    }
+                });
+            }
+            
+            if (content) {
+                analysisContent.innerHTML = content;
+                analysisSection.style.display = 'block';
+            } else {
+                analysisSection.style.display = 'none';
+            }
+        }
+
+        // Text input functionality
+        function toggleTextInput() {
+            textInputSection.style.display = textInputSection.style.display === 'none' ? 'block' : 'none';
+        }
+
+        async function sendTextMessage() {
+            const message = textInput.value.trim();
+            if (!message) return;
+
+            transcription.textContent = message;
+            status.textContent = "🤖 Processing your message...";
+            textInput.value = '';
+
+            await sendChatMessage(message);
+        }
+
+        // Allow Enter key to send message
+        textInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendTextMessage();
+            }
+        });
+
+        // Reset session
+        async function resetSession() {
+            try {
+                await fetch("http://127.0.0.1:5050/reset", {
+                    method: "POST"
+                });
+                
+                // Reset UI
+                transcription.textContent = "Your speech will appear here...";
+                assistantResponse.textContent = "I'm ready to help you find amazing products! Just speak naturally about what you're looking for.";
+                recommendations.innerHTML = '<div class="recommendation-item">Start by telling me what you\'re looking for...</div>';
+                analysisSection.style.display = 'none';
+                status.textContent = "🔄 Session reset! Ready for new requests.";
+                
+            } catch (err) {
+                console.error('Reset error:', err);
+                status.textContent = "⚠️ Error resetting session.";
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            status.textContent = "🎤 Click the microphone to start speaking";
+        });
+    </script>
+</body>
+</html>
