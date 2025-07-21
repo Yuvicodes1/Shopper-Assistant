@@ -1,0 +1,39 @@
+.voiceInputContainer {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+}
+
+.button:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+.resetButton {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #f87171, #ef4444);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.2);
+}
+
+.resetButton:hover {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}

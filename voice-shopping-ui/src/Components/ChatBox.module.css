@@ -1,0 +1,28 @@
+.chatContainer {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.message {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.user {
+  font-weight: 600;
+  color: #1a73e8;
+}
+
+.assistant {
+  font-weight: 500;
+  color: #333;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

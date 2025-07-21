@@ -1,0 +1,36 @@
+.inputContainer {
+  display: flex;
+  margin: 1rem 0 2rem;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.textInput {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border-radius: 0.6rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+  max-width: 500px;
+}
+
+.textInput:focus {
+  border-color: #6366f1;
+}
+
+.sendButton {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.sendButton:hover {
+  background: #2563eb;
+}
