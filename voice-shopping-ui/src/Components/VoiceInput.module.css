@@ -1,39 +1,146 @@
+/* VoiceInput.module.css */
 .voiceInputContainer {
   display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.voiceControls {
+  display: flex;
   gap: 12px;
-  margin: 20px 0;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .button {
-  padding: 10px 16px;
+  padding: 12px 20px;
   background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: white;
   font-weight: 600;
+  font-size: 0.95rem;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s ease;
-  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  min-width: 140px;
 }
 
-.button:hover {
+.button:hover:not(:disabled) {
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.button.recording {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 .resetButton {
-  padding: 10px 16px;
-  background: linear-gradient(135deg, #f87171, #ef4444);
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #6b7280, #4b5563);
   color: white;
   font-weight: 600;
+  font-size: 0.95rem;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s ease;
-  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+  min-width: 140px;
 }
 
-.resetButton:hover {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+.resetButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #4b5563, #374151);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(107, 114, 128, 0.4);
+}
+
+.resetButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.transcriptBox {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 2px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 16px;
+  max-width: 500px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.transcriptLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e40af;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.transcriptText {
+  font-size: 1rem;
+  color: #1f2937;
+  line-height: 1.5;
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+}
+
+.processingIndicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #6b7280;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e5e7eb;
+  border-top: 2px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .voiceControls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .button, .resetButton {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .transcriptBox {
+    margin: 16px;
+  }
 }
