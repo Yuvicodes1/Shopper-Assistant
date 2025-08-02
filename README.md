@@ -58,3 +58,9 @@ This project demonstrates expertise in:
 - Integrating state-of-the-art **NLP** and **ASR** technologies.
 - Developing robust, scalable backend systems.
 - Solving real-world e-commerce problems through intelligent, conversational interfaces.
+
+
+# Sample Images
+
+<img width="1909" height="1020" alt="image" src="https://github.com/user-attachments/assets/13127ffd-f70a-4904-a5d3-abf9d615fae8" />
+
