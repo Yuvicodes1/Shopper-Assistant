@@ -1,38 +1,106 @@
+/* App.module.css */
 .appContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
-  max-width: 1200px;
-  margin: auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #ffffff;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: white;
 }
 
 .title {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin: 30px 0;
-  color: #1f2937;
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(45deg, #fff, #f0f9ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow 2s ease-in-out infinite alternate;
 }
 
-.controls {
+.subtitle {
+  font-size: 1.2rem;
+  margin: 10px 0 0 0;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #667eea;
+  }
+  to {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #764ba2;
+  }
+}
+
+.mainContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.inputSection {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.resetSection {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .resetButton {
-  padding: 8px 16px;
+  padding: 12px 24px;
   font-size: 1rem;
-  background-color: #ef4444;
+  font-weight: 600;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
   color: #ffffff;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
 }
 
 .resetButton:hover {
-  background-color: #dc2626;
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+.resetButton:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .appContainer {
+    padding: 15px;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .inputSection {
+    padding: 20px;
+  }
 }
